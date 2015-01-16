@@ -34,3 +34,7 @@ future vs node vs others?
 
 todo explain default structure and commands
 makefile / rakefile too? 
+
+## links / sources
+- https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps
+- https://github.com/fhd/init-script-template/blob/master/template
