@@ -2,7 +2,7 @@
 ## Todo
 - Script which configure all of this
 - Actual explanations
-- Link sources
+- More configurations platforms/options
 
 ## simple nginx conf file
 `/etc/nginx/sites-enabled/myproject.conf`
