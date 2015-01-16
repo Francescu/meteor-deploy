@@ -11,7 +11,10 @@
 2. note that here PORT used is 3001
 3. link the file to sites-available with `ln -s`
 
-TODO.. explain more, put SSL config. Apache2 too?
+TODO/WIP:
+- Add required installations (`apt-get install nginx` etc.)
+- Put SSL config
+- Apache2 too?
 
 ## debian conf file for init.d (sysvinit)
 `/etc/init.d/myproject`
@@ -21,9 +24,12 @@ TODO.. explain more, put SSL config. Apache2 too?
 3. change settings inside (be careful mongodb name is the same as the filename, PORT is 3001)
 4. You can now use `sudo service NAME start` (or stop, restart and status)
 
-TODO.. explain more, put upstart config too (supervisor too?) 
-Config with
-future vs node vs others?
+TODO/WIP:
+- Explain more how to edit the file (create a little generator?)
+- Add node & dependencies installations
+- Find out when to use `meteor bundle` + `node main.js` like here, use directly `meteor`, or use future
+- Put others init.d configs like *upstart* (supervisor too?) 
+- ?write configs for `meteor` and `future` deployments?
 
 ## auto deployment from git
 `/home/user/myproject/fabfile.py`
@@ -32,8 +38,12 @@ future vs node vs others?
 2. Put your git repo in src `cd /home/user/myproject/; git clone <REPO>; mv <REPONAME> src` 
 3. use `fab update` (require `pip install fabric`)
 
-todo explain default structure and commands
-makefile / rakefile too? 
+TODO/WIP
+- Explicit dependencies `python`, `pip`, `fabric` etc.
+- Make more options for deployment (like path etc.)
+- Find out how to perform hot deployments?
+- Explain default structure and commands
+- makefile / rakefile too? 
 
 ## links / sources
 - https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps
