@@ -6,25 +6,27 @@
 
 ## simple nginx conf file
 `/etc/nginx/sites-enabled/myproject.conf`
-> reminders:
-> change settings inside (site URL)
-> PORT used is 3001
-> link it to sites-available with `ln -s`
 
-TODO..
+1. change settings in file (site URL)
+2. note that here PORT used is 3001
+3. link the file to sites-available with `ln -s`
+
+TODO.. explain more, put SSL config
 
 ## debian conf file for init.d (sysvinit)
-`/etc/init.d/project`
+`/etc/init.d/myproject`
 
-> reminders:
-> set `chmod +x /etc/init.d/project`
-> change settings inside (be careful mongodb name is the same as the filename)
+1. Rename to project name `mv /etc/init.d/myproject /etc/init.d/NAME`
+2. `chmod +x /etc/init.d/NAME`
+3. change settings inside (be careful mongodb name is the same as the filename, PORT is 3001)
 
-TODO..
+TODO.. explain more
 
 ## auto deployment from git
-`/home/user/project/fabfile.py`
+`/home/user/myproject/fabfile.py`
 
-> reminders:
+1. Change file to edit `project_name`
+2. Put your git repo in src `cd /home/user/myproject/; git clone <REPO>; mv <REPONAME> src` 
+3. use `fab update` (require `pip install fabric`)
 
-todo explain default structure
+*todo explain default structure and commands*
