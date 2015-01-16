@@ -1,4 +1,4 @@
-# meteor-deploy-nginx
+# meteor-deploy
 ## Todo
 - Script which configure all of this
 - Actual explanations
