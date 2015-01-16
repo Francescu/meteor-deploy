@@ -1,0 +1,121 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+meteor_project_path=/home/user/myproject/prod
+url=<URL>
+
+name=`basename $0`
+
+SOURCE_FILE=bundle/main.js
+SOURCE_FILE_PATH=$meteor_project_path/$SOURCE_FILE 
+
+cmd="node $SOURCE_FILE_PATH"
+
+pid_file="/var/run/$name.pid"
+stdout_log="/var/log/$name.log"
+stderr_log="/var/log/$name.err"
+
+get_pid() {
+    cat "$pid_file"
+}
+
+is_running() {
+    [ -f "$pid_file" ] && ps `get_pid` > /dev/null 2>&1
+}
+
+case "$1" in
+    start)
+    if is_running; then
+        echo "Already started"
+    else
+        echo "Starting $name"
+        export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        export NODE_PATH=/usr/lib/nodejs:/usr/lib/node_modules:/usr/share/javascript
+        # set to home directory of the user Meteor will be running as
+        export PWD=$meteor_project_path
+        export HOME=$meteor_project_path
+        # leave as 127.0.0.1 for security
+        export BIND_IP=127.0.0.1
+        # the port nginx is proxying requests to
+        export PORT=3001
+        # this allows Meteor to figure out correct IP address of visitors
+        export HTTP_FORWARDED_COUNT=1
+        # MongoDB connection string using glhf as database name
+        export MONGO_URL=mongodb://localhost:27017/$name
+        # The domain name as configured previously as server_name in nginx
+        export ROOT_URL=$url
+        # optional JSON config - the contents of file specified by passing "--settings" parameter to meteor command in development mode
+        export METEOR_SETTINGS='{ "somesetting": "someval", "public": { "othersetting": "anothervalue" } }'
+        # this is optional: http://docs.meteor.com/#email
+        # commented out will default to no email being sent
+        # you must register with MailGun to have a username and password there
+        # export MAIL_URL=smtp://postmaster@mymetorapp.net:password123@smtp.mailgun.org
+        # alternatively install "apt-get install default-mta" and uncomment:
+        # export MAIL_URL=smtp://localhost
+        $cmd >> "$stdout_log" 2>> "$stderr_log" &
+        echo $! > "$pid_file"
+        if ! is_running; then
+            echo "Unable to start, see $stdout_log and $stderr_log"
+            exit 1
+        fi
+    fi
+    ;;
+    stop)
+    if is_running; then
+        echo -n "Stopping $name.."
+        kill `get_pid`
+        for i in {1..10}
+        do
+            if ! is_running; then
+                break
+            fi
+
+            echo -n "."
+            sleep 1
+        done
+        echo
+
+        if is_running; then
+            echo "Not stopped; may still be shutting down or shutdown may have failed"
+            exit 1
+        else
+            echo "Stopped"
+            if [ -f "$pid_file" ]; then
+                rm "$pid_file"
+            fi
+        fi
+    else
+        echo "Not running"
+    fi
+    ;;
+    restart)
+    $0 stop
+    if is_running; then
+        echo "Unable to stop, will not attempt to start"
+        exit 1
+    fi
+    $0 start
+    ;;
+    status)
+    if is_running; then
+        echo "Running"
+    else
+        echo "Stopped"
+        exit 1
+    fi
+    ;;
+    *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+
+exit 0
