@@ -11,7 +11,7 @@
 2. note that here PORT used is 3001
 3. link the file to sites-available with `ln -s`
 
-### TODO/WIP:
+*TODO/WIP:*
 - Add required installations (`apt-get install nginx` etc.)
 - Put SSL config
 - Apache2 too?
@@ -24,7 +24,7 @@
 3. change settings inside (be careful mongodb name is the same as the filename, PORT is 3001)
 4. You can now use `sudo service NAME start` (or stop, restart and status)
 
-### TODO/WIP:
+*TODO/WIP:*
 - Explain more how to edit the file (create a little generator?)
 - Add node & dependencies installations
 - Find out when to use `meteor bundle` + `node main.js` like here, use directly `meteor`, or use future
@@ -38,7 +38,7 @@
 2. Put your git repo in src `cd /home/user/myproject/; git clone <REPO>; mv <REPONAME> src` 
 3. use `fab update` (require `pip install fabric`)
 
-### TODO/WIP
+*TODO/WIP:*
 - Explicit dependencies `python`, `pip`, `fabric` etc.
 - Make more options for deployment (like path etc.)
 - Find out how to perform hot deployments?
